@@ -2,8 +2,9 @@
 using Xpressional.Data.Interfaces;
 using System.Linq;
 using Xpressional.Data.Exceptions;
+using Xpressional.Data.Models;
 
-namespace Xpressional.Data.Models
+namespace Xpressional.Data.Managers
 {
 	internal class OperationParser
 	{

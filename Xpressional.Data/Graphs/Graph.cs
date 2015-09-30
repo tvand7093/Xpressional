@@ -6,8 +6,16 @@ namespace Xpressional.Data.Graphs
 {
 	public sealed class Graph
 	{
+		/// <summary>
+		/// Gets or sets the start state for the graph.
+		/// </summary>
+		/// <value>The start state.</value>
 		public GraphState StartState { get; set; }
 
+		/// <summary>
+		/// Gets the state count.
+		/// </summary>
+		/// <value>The state count.</value>
 		public int StateCount { get; private set; }
 
 		public Graph ()
@@ -16,6 +24,10 @@ namespace Xpressional.Data.Graphs
 			StateCount = 1;
 		}
 
+		/// <summary>
+		/// Renumbers the states for when graphs are merged or updated in any way.
+		/// </summary>
+		/// <param name="initState">The initial state used as a base for the count.</param>
 		void RenumberStates(GraphState initState) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
@@ -28,6 +40,11 @@ namespace Xpressional.Data.Graphs
 			}
 		}
 
+		/// <summary>
+		/// Finds all of the final states in the graph.
+		/// </summary>
+		/// <returns>The final states that were found.</returns>
+		/// <param name="initState">The root state to start the search at.</param>
 		List<GraphState> FindFinalStates(GraphState initState) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
