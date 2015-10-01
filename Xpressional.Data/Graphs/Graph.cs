@@ -32,10 +32,10 @@ namespace Xpressional.Data.Graphs
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
-			if (initState.StateNumber == -1) {
-				//set to 0 as new start state.
-				initState.StateNumber = 0;
-			}
+//			if (initState.StateNumber == -1) {
+//				//set to 0 as new start state.
+//				initState.StateNumber = 1;
+//			}
 
 			//not final, so continue like normal.
 			foreach (var connection in initState.Out) {
@@ -82,6 +82,9 @@ namespace Xpressional.Data.Graphs
 
 			//new q0
 			m.StartState = new GraphState ();
+			var newFinalState = new GraphState () {
+				IsFinal = true
+			};
 					
 			//connection from q0 to q1 over epsilon
 			var q0Toq1 = new GraphStateConnection () {
@@ -101,8 +104,31 @@ namespace Xpressional.Data.Graphs
 			m.StartState.Out.Add (q0Toq1);
 			m.StartState.Out.Add (q0Toq2);
 
+			var m1Finals = FindFinalStates (m1.StartState);
+			var m2Finals = FindFinalStates (m2.StartState);
+
+			foreach (var final in m1Finals) {
+				final.IsFinal = false;
+				var finalConnection = new GraphStateConnection () {
+					Start = final,
+					End = newFinalState,
+					ConnectedBy = Word.Epsilon
+				};
+				final.Out.Add (finalConnection);
+			}
+
+			foreach (var final in m2Finals) {
+				final.IsFinal = false;
+				var finalConnection = new GraphStateConnection () {
+					Start = final,
+					End = newFinalState,
+					ConnectedBy = Word.Epsilon
+				};
+				final.Out.Add (finalConnection);
+			}
+
 			//update the total state count
-			m.StateCount = m1.StateCount + m2.StateCount + 1;
+			m.StateCount = m1.StateCount + m2.StateCount + 2;
 			RenumberStates (m.StartState);
 			return m;
 		}
@@ -154,7 +180,7 @@ namespace Xpressional.Data.Graphs
 			//create new init and final state.
 			var newInitial = new GraphState (){
 				IsFinal = true,
-				StateNumber = oldInitial.StateNumber + 1
+				StateNumber = m1.StateCount
 			};
 
 			//create connection from new initial to the old initial through epsilon
@@ -170,10 +196,12 @@ namespace Xpressional.Data.Graphs
 			foreach (var finalState in finals) {
 				//now create epsilon connections from final to original start state
 				var finalToOldInitialConnection = new GraphStateConnection {
-					End = oldInitial,
+					End = newInitial,
 					Start = finalState,
 					ConnectedBy = Word.Epsilon
 				};
+
+				finalState.IsFinal = false;
 
 				//now connect them
 				finalState.Out.Add(finalToOldInitialConnection);

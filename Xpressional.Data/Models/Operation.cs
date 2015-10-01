@@ -5,6 +5,31 @@ namespace Xpressional.Data.Models
 {
 	internal class Operation : IMapping<char, OperationType>
 	{
+		public int CompareTo (IMapping<char, OperationType> other)
+		{
+			var result = -1;
+			if (this.Letter == other.Letter && this.Mapping == other.Mapping) {
+				result = 0;
+			}
+
+			if (this.Letter > other.Letter && this.Mapping == other.Mapping) {
+				result = 1;
+			}
+
+			if (this.Letter == other.Letter && this.Mapping > other.Mapping) {
+				result = 1;
+			}
+
+			if (this.Letter < other.Letter && this.Mapping == other.Mapping) {
+				result = -1;
+			}
+
+			if (this.Letter == other.Letter && this.Mapping < other.Mapping) {
+				result = -1;
+			}
+			return result;
+		}
+
 		#region IMapping implementation
 
 		public OperationType Mapping { get; private set; }

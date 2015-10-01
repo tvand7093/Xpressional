@@ -3,8 +3,28 @@ using System.Collections.Generic;
 
 namespace Xpressional.Data.Graphs
 {
-	public sealed class GraphState
+	public sealed class GraphState : IComparable<GraphState>
 	{
+		#region IComparable implementation
+
+		public int CompareTo (GraphState other)
+		{
+			var result = 0;
+			if (this.IsFinal && !other.IsFinal) {
+				result = 1;
+			} else if (!this.IsFinal && other.IsFinal) {
+				result = -1;
+			}
+			else if (this.StateNumber > other.StateNumber) {
+				result = 1;
+			} else if (this.StateNumber < other.StateNumber) {
+				result = -1;
+			}
+			return result;
+		}
+
+		#endregion
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this is a final state or not.
 		/// </summary>
@@ -26,7 +46,7 @@ namespace Xpressional.Data.Graphs
 		public GraphState ()
 		{
 			IsFinal = false;
-			StateNumber = -1;
+			StateNumber = 0;
 			Out = new List<GraphStateConnection> ();
 		}
 	}

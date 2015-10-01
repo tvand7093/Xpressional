@@ -5,6 +5,32 @@ namespace Xpressional.Data.Models
 {
 	public sealed class Word : IMapping<char, string>
 	{
+		public int CompareTo (IMapping<char, string> other)
+		{
+			var result = -1;
+			if (this.Letter == other.Letter && this.Mapping == other.Mapping) {
+				result = 0;
+			}
+
+			if (this.Letter > other.Letter && this.Mapping == other.Mapping) {
+				result = 1;
+			}
+
+			if (this.Letter == other.Letter && this.Mapping.CompareTo(other.Mapping) > 0) {
+				result = 1;
+			}
+
+			if (this.Letter < other.Letter && this.Mapping.CompareTo(other.Mapping) == 0) {
+				result = -1;
+			}
+
+			if (this.Letter == other.Letter && this.Mapping.CompareTo(other.Mapping) < 0) {
+				result = -1;
+			}
+
+			return result;
+		}
+
 		#region IWord implementation
 
 		public string Mapping { get; private set; }
