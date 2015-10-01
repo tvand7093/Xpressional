@@ -32,6 +32,11 @@ namespace Xpressional.Data.Graphs
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
+			if (initState.StateNumber == -1) {
+				//set to 0 as new start state.
+				initState.StateNumber = 0;
+			}
+
 			//not final, so continue like normal.
 			foreach (var connection in initState.Out) {
 				//check the outgoing connections
@@ -45,7 +50,7 @@ namespace Xpressional.Data.Graphs
 		/// </summary>
 		/// <returns>The final states that were found.</returns>
 		/// <param name="initState">The root state to start the search at.</param>
-		List<GraphState> FindFinalStates(GraphState initState) {
+		public List<GraphState> FindFinalStates(GraphState initState) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
@@ -130,7 +135,6 @@ namespace Xpressional.Data.Graphs
 
 			//update state count for new graph
 			m.StartState = m1.StartState;
-			m.StartState.StateNumber = 1;
 			m.StateCount = m1.StateCount + m2.StateCount;
 			RenumberStates (m.StartState);
 			return m;
