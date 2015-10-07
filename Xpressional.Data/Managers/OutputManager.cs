@@ -12,39 +12,37 @@ namespace Xpressional.Data.Managers
 	{
 		IConsole Console { get; set; }
 
-		void PrintStatesOutputs(GraphState currentState, List<GraphState> visited){
+		void PrintStatesOutputs(GraphState currentState,
+			List<GraphState> visited, List<string> output){
+
 			visited.Add (currentState);
 
 			foreach (var state in currentState.Out) {
 
-				var finalOrStart = string.Empty;
-
-				if (visited.Count == 1) {
-					finalOrStart += " S";
-				}
-				if (currentState.IsFinal) {
-					finalOrStart = String.IsNullOrWhiteSpace (finalOrStart) ? " F" : "/F";
-				}
-
-				var isFinalStateForOutput = state.End.IsFinal ? " F" : string.Empty;
-
-				Console.WriteLine ("(q{0}{1}, {2}) ==> q{3}",
-					currentState.StateNumber.ToString(), 
-					finalOrStart,
-					state.ConnectedBy.Letter.ToString(),
-					state.End.StateNumber.ToString() + isFinalStateForOutput);
+				//Console.WriteLine (state.ToString ());
+				output.Add(state.ToString());
 				if (!visited.Contains (state.End)) {
 					//not seen, so keep going.
-					PrintStatesOutputs(state.End, visited);
+					PrintStatesOutputs(state.End, visited, output);
 				}
 			}
+
 		}
 
 		public void Print(Graph toPrint){
 			//if state has been visited, don't do it again to avoid SO
 
 			List<GraphState> visited = new List<GraphState> ();
-			PrintStatesOutputs (toPrint.StartState, visited);
+			List<string> output = new List<string> ();
+
+			Console.WriteLine ("Start state is: q" + toPrint.StartState.StateNumber);
+				
+
+			PrintStatesOutputs (toPrint.StartState, visited, output);
+
+			foreach (var row in output.OrderBy (s => s)) {
+				Console.WriteLine (row);
+			}
 		}
 
 

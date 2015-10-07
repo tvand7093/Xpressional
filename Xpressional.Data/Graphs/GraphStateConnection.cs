@@ -23,6 +23,26 @@ namespace Xpressional.Data.Graphs
 		/// <value>The end of the connection.</value>
 		public GraphState End { get; set; }
 
+		public override string ToString ()
+		{
+			var startFinal = "";
+			var endFinal = "";
+			if (Start.IsFinal) {
+				startFinal = " F";
+			}
+
+			if (End.IsFinal) {
+				endFinal = " F";
+			}
+			var output = string.Format ("(q{0}{1}, {2}) ==> q{3}",
+				Start.StateNumber, 
+				startFinal,
+				ConnectedBy.Letter,
+				End.StateNumber + endFinal);
+
+			return output;
+		}
+
 		public GraphStateConnection ()
 		{
 			ConnectedBy = null;

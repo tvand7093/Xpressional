@@ -14,7 +14,13 @@ namespace Xpressional
 			var inputManager = new InputManager ();
 			Graph baseGraph = null;
 
-			baseGraph = inputManager.ParseExpression ("ab+", baseGraph);
+
+			//ab+*a&b&a*&*ab+&ab+&
+
+			// this causes overflow: ab+*a&b&a*
+			// however, this does not: ab+*a&b&
+
+			baseGraph = inputManager.ParseExpression ("ab+*a&b&*", baseGraph);
 			output.Print (baseGraph);
 			Console.ReadKey ();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xpressional.Data.Models;
+using System.Linq;
 
 namespace Xpressional.Data.Graphs
 {
@@ -65,6 +66,7 @@ namespace Xpressional.Data.Graphs
 				throw new NullReferenceException ("Initial State must not be null.");
 
 			if (visited == null) {
+
 				visited = new List<GraphState> ();
 			}
 
@@ -73,8 +75,8 @@ namespace Xpressional.Data.Graphs
 
 			foreach (var connection in initState.Out) {
 				//check the outgoing connections
-				if (!visited.Contains (connection.End)) {
-					connection.End.StateNumber = initState.StateNumber + 1;
+				if (!visited.Contains(connection.End)) {
+					connection.End.StateNumber = visited.Count;
 					RenumberStates(connection.End, visited);
 				}
 			}
