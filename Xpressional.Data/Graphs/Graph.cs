@@ -18,57 +18,107 @@ namespace Xpressional.Data.Graphs
 		/// <value>The state count.</value>
 		public int StateCount { get; private set; }
 
+		readonly bool updateStateNumber;
+
+		/// <summary>
+		/// Creates a new instance of a Graph/NFA. Provides methods for Unions, Kleen, and Concat operations.
+		/// </summary>
 		public Graph ()
 		{
 			StartState = null;
 			StateCount = 1;
+			updateStateNumber = true;
+		}
+
+		/// <summary>
+		/// Creates a new instance of a Graph/NFA. Provides methods for Unions, Kleen, and Concat operations.
+		/// </summary>
+		public Graph (bool updateStateAfterOp)
+		{
+			StartState = null;
+			StateCount = 1;
+			updateStateNumber = updateStateAfterOp;
 		}
 
 		/// <summary>
 		/// Renumbers the states for when graphs are merged or updated in any way.
 		/// </summary>
 		/// <param name="initState">The initial state used as a base for the count.</param>
-		void RenumberStates(GraphState initState) {
+		internal void RenumberStates() {
+			RenumberStates (StartState);
+		}
+
+//		static void RenumberStates(GraphState initState) {
+//			if (initState == null)
+//				throw new NullReferenceException ("Initial State must not be null.");
+//
+//			//not final, so continue like normal.
+//			foreach (var connection in initState.Out) {
+//				//check the outgoing connections
+//				connection.End.StateNumber = initState.StateNumber + 1;
+//				RenumberStates(connection.End);
+//			}
+//		}
+
+		static void RenumberStates(GraphState initState, List<GraphState> visited = null) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
-//			if (initState.StateNumber == -1) {
-//				//set to 0 as new start state.
-//				initState.StateNumber = 1;
-//			}
+			if (visited == null) {
+				visited = new List<GraphState> ();
+			}
 
+			visited.Add (initState);
 			//not final, so continue like normal.
+
 			foreach (var connection in initState.Out) {
 				//check the outgoing connections
-				connection.End.StateNumber = initState.StateNumber + 1;
-				RenumberStates(connection.End);
+				if (!visited.Contains (connection.End)) {
+					connection.End.StateNumber = initState.StateNumber + 1;
+					RenumberStates(connection.End, visited);
+				}
 			}
 		}
+
 
 		/// <summary>
 		/// Finds all of the final states in the graph.
 		/// </summary>
 		/// <returns>The final states that were found.</returns>
 		/// <param name="initState">The root state to start the search at.</param>
-		public List<GraphState> FindFinalStates(GraphState initState) {
+		public List<GraphState> FindFinalStates(GraphState initState,
+			List<GraphState> visited = null) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
 			var finals = new List<GraphState> ();
 
-			if(initState.IsFinal){
+			if (visited == null) {
+				visited = new List<GraphState> ();
+			}
+
+			var alreadyFound = visited.Find (s => s == initState);
+
+			if(alreadyFound == null && initState.IsFinal){
 				//add to list of final states
 				finals.Add(initState);
+				visited.Add (initState);
 			}
 			//not final, so continue like normal.
 			foreach (var connection in initState.Out) {
 				//check the outgoing connections
-				var nested = FindFinalStates(connection.End);
+				var nested = FindFinalStates(connection.End, visited);
 				//add the results from nested search to final result
 				finals.AddRange (nested);
 			}
 
 			return finals;
+		}
+
+
+		public Graph Union(Word toUnion){
+			var baseGraph = Graph.CreateNewGraph (toUnion);
+			return Union (baseGraph);
 		}
 
 		/// <summary>
@@ -80,8 +130,10 @@ namespace Xpressional.Data.Graphs
 			var m = new Graph ();
 			var m1 = this;
 
-			//new q0
+			//new start state
 			m.StartState = new GraphState ();
+
+			//new q0
 			var newFinalState = new GraphState () {
 				IsFinal = true
 			};
@@ -129,18 +181,39 @@ namespace Xpressional.Data.Graphs
 
 			//update the total state count
 			m.StateCount = m1.StateCount + m2.StateCount + 2;
-			RenumberStates (m.StartState);
+			if (updateStateNumber) {
+				RenumberStates (m.StartState);
+			}
 			return m;
+		}
+
+		internal static Graph CreateNewGraph(Word fromConnection){
+			var graph = new Graph () {
+				StartState = new GraphState() { StateNumber = 0 }
+			};
+			graph.StartState.Out.Add (new GraphStateConnection () {
+				Start = graph.StartState,
+				End = new GraphState() { StateNumber = 1, IsFinal = true },
+				ConnectedBy = fromConnection
+			});
+			graph.StateCount = 2;
+			return graph;
+		}
+
+		public Graph Concat(Word word){
+			var m = Graph.CreateNewGraph (word);
+			return Concat(m);
 		}
 
 		/// <summary>
 		/// Concatinates two NDFA's.
 		/// </summary>
 		/// <param name="m2">The second NDFA to concatinate with.</param>
+		/// <param name="letter">The optional letter to cancat with.</param>
 		/// <returns>The new NDFA that is this and m2 concatinated.</returns>
-		public Graph Concat(Graph m2) {
+		public Graph Concat(Graph m1) {
 			var m = new Graph ();
-			var m1 = this;
+			var m2 = this;
 
 			var m1FinalStates = m1.FindFinalStates (m1.StartState);
 
@@ -149,7 +222,8 @@ namespace Xpressional.Data.Graphs
 				var m1FinalTom2Initial = new GraphStateConnection () {
 					Start = finalState,
 					End = m2.StartState,
-					ConnectedBy = Word.Epsilon
+					ConnectedBy =
+						Word.Epsilon 
 				};
 
 				//make the connection
@@ -158,11 +232,13 @@ namespace Xpressional.Data.Graphs
 				//kill m1 final states and leave m2 as finals for m
 				finalState.IsFinal = false;
 			}
-
+				
 			//update state count for new graph
 			m.StartState = m1.StartState;
 			m.StateCount = m1.StateCount + m2.StateCount;
-			RenumberStates (m.StartState);
+			if (updateStateNumber) {
+				RenumberStates (m.StartState);
+			}
 			return m;
 		}
 
@@ -180,7 +256,7 @@ namespace Xpressional.Data.Graphs
 			//create new init and final state.
 			var newInitial = new GraphState (){
 				IsFinal = true,
-				StateNumber = m1.StateCount
+				StateNumber = m1.StateCount + 1
 			};
 
 			//create connection from new initial to the old initial through epsilon
@@ -210,7 +286,6 @@ namespace Xpressional.Data.Graphs
 			//now attach the new init state to the graph
 			m.StartState = newInitial;
 			m.StateCount = m1.StateCount + 1;
-
 			return m;
 		}
 	}

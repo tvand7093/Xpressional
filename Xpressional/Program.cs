@@ -1,5 +1,7 @@
 ﻿using System;
 using Xpressional.Data.Managers;
+using System.IO;
+using Xpressional.Data.Graphs;
 
 namespace Xpressional
 {
@@ -8,7 +10,18 @@ namespace Xpressional
 		public static void Main (string[] args)
 		{
 			var output = new OutputManager (new ConsoleHelper ());
+			//var fileContents = File.ReadAllLines (args [0]);
+			var inputManager = new InputManager ();
+			Graph baseGraph = null;
 
+			baseGraph = inputManager.ParseExpression ("ab+", baseGraph);
+			output.Print (baseGraph);
+			Console.ReadKey ();
+
+//			foreach (var line in fileContents) {
+//				baseGraph = inputManager.ParseExpression (line, baseGraph);
+//				output.Print (baseGraph);
+//			}
 		}
 	}
 }

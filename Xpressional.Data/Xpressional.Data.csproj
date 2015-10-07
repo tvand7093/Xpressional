@@ -40,10 +40,11 @@
     <Compile Include="Exceptions\InvalidLanguageException.cs" />
     <Compile Include="Graphs\GraphState.cs" />
     <Compile Include="Graphs\GraphStateConnection.cs" />
-    <Compile Include="Managers\OperationManager.cs" />
     <Compile Include="Managers\OutputManager.cs" />
     <Compile Include="Interfaces\IConsole.cs" />
     <Compile Include="Graphs\Graph.cs" />
+    <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Models\StateInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

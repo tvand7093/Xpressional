@@ -4,80 +4,53 @@ using Xpressional.Data.Interfaces;
 using Xpressional.Data.Models;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Xpressional.Data.Managers
 {
 	public sealed class OutputManager
 	{
 		IConsole Console { get; set; }
-		Language Words {get;set;}
 
-		void PrintHeader(){
-			var header = "\t";
+		void PrintStatesOutputs(GraphState currentState, List<GraphState> visited){
+			visited.Add (currentState);
 
-			foreach (var word in Words) {
-				header += string.Format("{0} | \t", word.Letter);
-			}
-			//print out the header
-			Console.WriteLine(header);
-			Console.WriteLine ("------------------------------");
-		}
+			foreach (var state in currentState.Out) {
 
-		void PrintRow(GraphState currentState, StringBuilder toOutput){
-			var defaultConnection = new GraphStateConnection () {
-				ConnectedBy = new Word()
-			};
+				var finalOrStart = string.Empty;
 
-			//initial state (q1)
-			toOutput.AppendFormat ("q{0}", currentState.StateNumber);
-			if (currentState.IsFinal) {
-				toOutput.Append (" S");
-			}
-			toOutput.Append (" | \t");
+				if (visited.Count == 1) {
+					finalOrStart += " S";
+				}
+				if (currentState.IsFinal) {
+					finalOrStart = String.IsNullOrWhiteSpace (finalOrStart) ? " F" : "/F";
+				}
 
-			var connectionWords = currentState.Out;
+				var isFinalStateForOutput = state.End.IsFinal ? " F" : string.Empty;
 
-
-			for (int i = 0; i < Words.Count; i++) {
-				//current letter to print out
-				var letter = Words[i];
-
-				var connectedLetter = connectionWords
-					.DefaultIfEmpty (defaultConnection)
-					.FirstOrDefault (w => w.ConnectedBy.Letter == letter.Letter);
-
-				//prints the connecting letter or 
-				if (connectedLetter == defaultConnection) {
-					//ouput nothing
-					toOutput.Append ("   | \t");
-				} else {
-					//output the state
-					toOutput.AppendFormat ("q{0} | \t", connectedLetter.End.StateNumber);
+				Console.WriteLine ("(q{0}{1}, {2}) ==> q{3}",
+					currentState.StateNumber.ToString(), 
+					finalOrStart,
+					state.ConnectedBy.Letter.ToString(),
+					state.End.StateNumber.ToString() + isFinalStateForOutput);
+				if (!visited.Contains (state.End)) {
+					//not seen, so keep going.
+					PrintStatesOutputs(state.End, visited);
 				}
 			}
-			Console.WriteLine (toOutput.ToString ());
 		}
 
-		void PrintGraph(Graph toPrint){
-			//print states
-			var toOutput = new StringBuilder();
+		public void Print(Graph toPrint){
+			//if state has been visited, don't do it again to avoid SO
 
-			foreach (var state in toPrint.StartState.Out) {
-				PrintRow (state.End, toOutput);
-			}
+			List<GraphState> visited = new List<GraphState> ();
+			PrintStatesOutputs (toPrint.StartState, visited);
 		}
 
-		public void PrintNDFA(Graph toPrint){
-			PrintHeader ();
-
-			PrintGraph (toPrint);
-
-		}
 
 		public OutputManager (IConsole console)
 		{
 			Console = console;
-			Words = new Language ();
 		}
 	}
 }

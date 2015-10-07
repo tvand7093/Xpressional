@@ -10,6 +10,10 @@ namespace Xpressional.Data.Graphs
 		public int CompareTo (GraphState other)
 		{
 			var result = 0;
+
+			if (Id == other.Id)
+				return 0;
+
 			if (this.IsFinal && !other.IsFinal) {
 				result = 1;
 			} else if (!this.IsFinal && other.IsFinal) {
@@ -24,6 +28,8 @@ namespace Xpressional.Data.Graphs
 		}
 
 		#endregion
+
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this is a final state or not.
@@ -45,6 +51,7 @@ namespace Xpressional.Data.Graphs
 
 		public GraphState ()
 		{
+			Id = Guid.NewGuid ();
 			IsFinal = false;
 			StateNumber = 0;
 			Out = new List<GraphStateConnection> ();

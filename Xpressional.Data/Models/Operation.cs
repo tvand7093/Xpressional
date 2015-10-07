@@ -30,18 +30,22 @@ namespace Xpressional.Data.Models
 			return result;
 		}
 
+
 		#region IMapping implementation
 
 		public OperationType Mapping { get; private set; }
 
 		public char Letter { get; private set; }
 
+		public int MinArgCount { get; private set; }
+
 		#endregion
 
-		public Operation (char letter, OperationType mapping)
+		public Operation (char letter, OperationType mapping, int argCount)
 		{
 			Mapping = mapping;
 			Letter = letter;
+			MinArgCount = argCount;
 		}
 	}
 }

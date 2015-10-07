@@ -7,9 +7,9 @@ namespace Xpressional.Data.Models
 	{
 		public Operations ()
 		{
-			Add (new Operation ('*', OperationType.Kleene));
-			Add (new Operation ('&', OperationType.Union));
-			Add (new Operation ('+', OperationType.Concat));
+			Add (new Operation ('*', OperationType.Kleene, 1));
+			Add (new Operation ('&', OperationType.Concat, 2));
+			Add (new Operation ('+', OperationType.Union, 2));
 		}
 	}
 }

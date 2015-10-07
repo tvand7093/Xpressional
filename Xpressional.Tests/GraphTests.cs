@@ -180,8 +180,8 @@ namespace Xpressional.Tests
 
 				var ndfa = m1.Concat (m2);
 
-				ndfa.StartState.Out[0].Start.Should ().Be (m1Start);
-				ndfa.StartState.Out[0].End.Should ().Be (m2Start);
+				ndfa.StartState.Out[0].Start.Should ().Be (m2Start);
+				ndfa.StartState.Out[0].End.Should ().Be (m1Start);
 				ndfa.StartState.Out[0].ConnectedBy.Letter.Should ().Be (Word.Epsilon.Letter);
 				ndfa.StartState.Out[0].ConnectedBy.Mapping.Should ().Be (Word.Epsilon.Mapping);
 			}
@@ -210,7 +210,7 @@ namespace Xpressional.Tests
 				var ndfa = m1.Concat (m2);
 				var finals = ndfa.FindFinalStates (ndfa.StartState);
 				finals.Count.Should ().Be (1);
-				finals [0].Should ().Be (m2Start);
+				finals [0].Should ().Be (m1Start);
 			}
 		}
 
@@ -336,6 +336,7 @@ namespace Xpressional.Tests
 
 				var finalConnection2 = secondFinal.Out [0];
 				finalConnection2.ConnectedBy.Should ().Be (Word.Epsilon);
+
 				finalConnection2.Start.Should ().Be (secondFinal);
 
 				//now check the final state
@@ -353,13 +354,24 @@ namespace Xpressional.Tests
 			{
 				var m1 = new Graph () {
 					StartState =  new GraphState () {
-						IsFinal = true
+						IsFinal = false,
+						StateNumber = 0
 					}
 				};
 
+				m1.StartState.Out.Add (new GraphStateConnection () {
+					ConnectedBy = new Word('a'),
+					Start = m1.StartState,
+					End = new GraphState() {
+						StateNumber = 1
+					}
+				});
+
 				var ndfa = m1.Kleene ();
 				ndfa.StartState.Out [0].End.StateNumber.Should ().Be (0);
-				ndfa.StartState.StateNumber.Should ().Be (1);
+				ndfa.StartState.Out [0].End.Out[0].End.StateNumber.Should ().Be (1);
+				ndfa.StartState.StateNumber.Should ().Be (2);
+
 			}
 
 			[Test]
@@ -393,35 +405,6 @@ namespace Xpressional.Tests
 				self.Should ().Be (ndfa.StartState);
 			}
 
-			[Test]
-			public void CreatesCorrectConnection()
-			{
-				var m1Start = new GraphState () {
-					IsFinal = true
-				};
-
-				var tempNewStart = new GraphState () {
-					IsFinal = true,
-					StateNumber = 1
-				};
-
-				var m1 = new Graph () {
-					StartState = m1Start
-				};
-
-				var ndfa = m1.Kleene ();
-
-				var outConnection = ndfa.StartState.Out [0];
-				var backConnection = outConnection.End.Out [0];
-
-				outConnection.ConnectedBy.Should ().Be (Word.Epsilon);
-				outConnection.Start.Should ().Be (tempNewStart);
-				outConnection.End.Should ().Be (m1Start);
-
-				backConnection.Start.Should ().Be (m1Start);
-				backConnection.ConnectedBy.Should ().Be (Word.Epsilon);
-				backConnection.End.Should ().Be (tempNewStart);
-			}
 		}
 	}
 }
