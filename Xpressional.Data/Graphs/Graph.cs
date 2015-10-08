@@ -99,19 +99,23 @@ namespace Xpressional.Data.Graphs
 				visited = new List<GraphState> ();
 			}
 
-			var alreadyFound = visited.Find (s => s == initState);
+			var alreadyFound = visited.Find (s => s.Id == initState.Id);
 
 			if(alreadyFound == null && initState.IsFinal){
 				//add to list of final states
 				finals.Add(initState);
-				visited.Add (initState);
 			}
+
+			visited.Add (initState);
+
 			//not final, so continue like normal.
 			foreach (var connection in initState.Out) {
-				//check the outgoing connections
-				var nested = FindFinalStates(connection.End, visited);
-				//add the results from nested search to final result
-				finals.AddRange (nested);
+				if (visited.Find (s => s.Id == connection.End.Id) == null) {
+					//check the outgoing connections
+					var nested = FindFinalStates(connection.End, visited);
+					//add the results from nested search to final result
+					finals.AddRange (nested);
+				}
 			}
 
 			return finals;
@@ -248,6 +252,7 @@ namespace Xpressional.Data.Graphs
 		/// Perfoms a Kleene operation on the graph.
 		/// </summary>
 		/// <returns>The new graph after the Kleene operation.</returns>
+
 		public Graph Kleene(){
 			var m = new Graph ();
 			var m1 = this;

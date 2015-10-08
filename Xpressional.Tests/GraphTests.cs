@@ -43,7 +43,7 @@ namespace Xpressional.Tests
 			}
 
 			[Test]
-			public void CountsThreeFinals()
+			public void CountsOnlyOneFinal()
 			{
 				var m1Start = new GraphState () {
 					IsFinal = true

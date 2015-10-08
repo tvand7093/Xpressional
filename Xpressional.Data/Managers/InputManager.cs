@@ -15,7 +15,7 @@ namespace Xpressional.Data.Managers
 		public Graph ParseExpression(string expression, Graph initGraph = null){
 			var lang = new Language ();
 			var ops = new Operations ();
-
+			expression = expression.Trim ();
 			var opStack = new Stack<Word>();
 			foreach (char letter in expression) {
 
@@ -73,8 +73,6 @@ namespace Xpressional.Data.Managers
 
 				if(op.Mapping == OperationType.Concat)
 					initGraph = initGraph.Concat(wordToAdd);
-//				else if(op.Mapping == OperationType.Kleene)
-//					initGraph = initGraph.Kleene();
 				else if(op.Mapping == OperationType.Union)
 					initGraph = initGraph.Union(wordToAdd);
 			}

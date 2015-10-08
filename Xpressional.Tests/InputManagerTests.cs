@@ -200,6 +200,15 @@ namespace Xpressional.Tests
 					output.StateCount.Should ().Be (5);
 				}
 
+				[Test]
+				public void HasCorrectFinalStateCount(){
+					const string expression = "ab&*";
+					var parser = new InputManager ();
+					var output = parser.ParseExpression(expression);
+					var finals = output.FindFinalStates (output.StartState);
+					finals.Count.Should ().Be (1);
+				}
+
 //				[Test]
 //				public void CorrectFinalStateCount_SingleOp(){
 //					const string expression = "ab+";
