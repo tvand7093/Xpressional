@@ -1,5 +1,10 @@
 # Xpressional
-A regular expression parser for Automata
+A .NET based console application that parses input regular expressions from a file and outputs a state table for expression.
+
+## Authors
+Tyler Vanderhoef - tyler.vanderhoef@wsu.edu
+
+GitHub repo can be found [here](https://github.com/tvand7093/Xpressional).
 
 ## Steps to Install
 1. Copy the contents of this repository to your local machine.
