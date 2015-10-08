@@ -96,7 +96,7 @@ namespace Xpressional.Data.Graphs
 			}
 
 			//check if we have seen this before
-			var alreadyFound = visited.Find (s => s.Id == initState.Id);
+			var alreadyFound = visited.FirstOrDefault (s => s.Id == initState.Id);
 
 			//not found yet, so if final, add it to our list.
 			if(alreadyFound == null && initState.IsFinal){
@@ -109,7 +109,7 @@ namespace Xpressional.Data.Graphs
 
 			//now go over sub-states to see if they are final or not.
 			foreach (var connection in initState.Out) {
-				if (visited.Find (s => s.Id == connection.End.Id) == null) {
+				if (visited.FirstOrDefault (s => s.Id == connection.End.Id) == null) {
 					//check the outgoing connections
 					var nested = FindFinalStates(connection.End, visited);
 					//add the results from nested search to final result
