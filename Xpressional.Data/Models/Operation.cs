@@ -3,7 +3,7 @@ using Xpressional.Data.Interfaces;
 
 namespace Xpressional.Data.Models
 {
-	internal class Operation : IMapping<char, OperationType>
+	sealed class Operation : IMapping<char, OperationType>
 	{
 		public int CompareTo (IMapping<char, OperationType> other)
 		{
@@ -30,13 +30,25 @@ namespace Xpressional.Data.Models
 			return result;
 		}
 
-
 		#region IMapping implementation
 
+		/// <summary>
+		/// The operation type to perform
+		/// </summary>
+		/// <value>The mapping.</value>
 		public OperationType Mapping { get; private set; }
 
+
+		/// <summary>
+		/// The letter representing the operation
+		/// </summary>
+		/// <value>The letter.</value>
 		public char Letter { get; private set; }
 
+		/// <summary>
+		/// Minimum arguement count for the specified operation type.
+		/// </summary>
+		/// <value>The minimum argument count.</value>
 		public int MinArgCount { get; private set; }
 
 		#endregion

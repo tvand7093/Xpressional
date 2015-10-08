@@ -2,6 +2,9 @@
 
 namespace Xpressional.Data.Exceptions
 {
+	/// <summary>
+	/// Represents a language issue like bad input, bad operation balance, etc...
+	/// </summary>
 	public class InvalidLanguageException : Exception
 	{
 		public InvalidLanguageException () : base("The language is unrecognized.")

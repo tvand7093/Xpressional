@@ -44,7 +44,6 @@
     <Compile Include="Interfaces\IConsole.cs" />
     <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Managers\InputManager.cs" />
-    <Compile Include="Models\StateInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

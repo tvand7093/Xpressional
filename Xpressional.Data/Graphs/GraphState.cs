@@ -3,10 +3,20 @@ using System.Collections.Generic;
 
 namespace Xpressional.Data.Graphs
 {
+	/// <summary>
+	/// Represents a state for a graph.
+	/// </summary>
 	public sealed class GraphState : IComparable<GraphState>
 	{
 		#region IComparable implementation
 
+		/// <Docs>To be added.</Docs>
+		/// <para>Returns the sort order of the current instance compared to the specified object.</para>
+		/// <summary>
+		/// Simply compares properties on the object to see if they match. Id is used first.
+		/// </summary>
+		/// <returns>an int representing if the objects are the same.</returns>
+		/// <param name="other">the object to compare.</param>
 		public int CompareTo (GraphState other)
 		{
 			var result = 0;
@@ -29,6 +39,10 @@ namespace Xpressional.Data.Graphs
 
 		#endregion
 
+		/// <summary>
+		/// Unique Id for this state.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
 		/// <summary>

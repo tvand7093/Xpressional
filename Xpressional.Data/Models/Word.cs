@@ -33,21 +33,32 @@ namespace Xpressional.Data.Models
 
 		#region IWord implementation
 
+		/// <summary>
+		/// the string value of the mapped letter
+		/// </summary>
+		/// <value>The mapping.</value>
 		public string Mapping { get; private set; }
+
+		/// <summary>
+		/// The letter used for mappings.
+		/// </summary>
+		/// <value>The letter.</value>
 		public char Letter { get; private set; }
 
-		bool IsSpecial {
-			get {
-				return Mapping != null && Letter.ToString() != Mapping;
-			}
-		}
-
+		/// <summary>
+		/// A helper property for getting an epsilon state.
+		/// </summary>
+		/// <value>The epsilon.</value>
 		public static Word Epsilon {
 			get {
 				return new Word ('E', string.Empty);
 			} 
 		}
 
+		/// <summary>
+		/// A helper property for getting a null state.
+		/// </summary>
+		/// <value>The null.</value>
 		public static Word Null {
 			get {
 				return new Word ('0', null);

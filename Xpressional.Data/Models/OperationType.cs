@@ -2,7 +2,7 @@
 
 namespace Xpressional.Data.Models
 {
-	internal enum OperationType
+	enum OperationType
 	{
 		Concat,
 		Kleene,

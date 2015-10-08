@@ -5,7 +5,10 @@ using System.Linq;
 
 namespace Xpressional.Data.Models
 {
-	public class Language : List<Word>
+	/// <summary>
+	/// A list of letters that represents the valid language of the system.
+	/// </summary>
+	sealed class Language : List<Word>
 	{
 		public Language ()
 		{

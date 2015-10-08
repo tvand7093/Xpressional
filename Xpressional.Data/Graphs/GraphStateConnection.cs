@@ -23,6 +23,10 @@ namespace Xpressional.Data.Graphs
 		/// <value>The end of the connection.</value>
 		public GraphState End { get; set; }
 
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="Xpressional.Data.Graphs.GraphStateConnection"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Xpressional.Data.Graphs.GraphStateConnection"/>.</returns>
 		public override string ToString ()
 		{
 			var startFinal = "";
@@ -34,6 +38,7 @@ namespace Xpressional.Data.Graphs
 			if (End.IsFinal) {
 				endFinal = " F";
 			}
+			//create a nice output for this state.
 			var output = string.Format ("(q{0}{1}, {2}) ==> q{3}",
 				Start.StateNumber, 
 				startFinal,

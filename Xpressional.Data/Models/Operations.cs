@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Xpressional.Data.Models
 {
+	/// <summary>
+	/// Represents the list of valid operations for our expressions.
+	/// </summary>
 	sealed class Operations : List<Operation>
 	{
 		public Operations ()

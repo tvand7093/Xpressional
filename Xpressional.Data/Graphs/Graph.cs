@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Xpressional.Data.Graphs
 {
+	/// <summary>
+	/// Provides functionality to create a graph and manipulate it.
+	/// </summary>
 	public sealed class Graph
 	{
 		/// <summary>
@@ -49,24 +52,16 @@ namespace Xpressional.Data.Graphs
 			RenumberStates (StartState);
 		}
 
-//		static void RenumberStates(GraphState initState) {
-//			if (initState == null)
-//				throw new NullReferenceException ("Initial State must not be null.");
-//
-//			//not final, so continue like normal.
-//			foreach (var connection in initState.Out) {
-//				//check the outgoing connections
-//				connection.End.StateNumber = initState.StateNumber + 1;
-//				RenumberStates(connection.End);
-//			}
-//		}
-
+		/// <summary>
+		/// Renumbers the states for the specified graph.
+		/// </summary>
+		/// <param name="initState">State to start with.</param>
+		/// <param name="visited">A list of states already visited.</param>
 		static void RenumberStates(GraphState initState, List<GraphState> visited = null) {
 			if (initState == null)
 				throw new NullReferenceException ("Initial State must not be null.");
 
 			if (visited == null) {
-
 				visited = new List<GraphState> ();
 			}
 
@@ -88,6 +83,7 @@ namespace Xpressional.Data.Graphs
 		/// </summary>
 		/// <returns>The final states that were found.</returns>
 		/// <param name="initState">The root state to start the search at.</param>
+		/// <param name="visited">The rlist of states already visited.</param>
 		public List<GraphState> FindFinalStates(GraphState initState,
 			List<GraphState> visited = null) {
 			if (initState == null)
@@ -99,16 +95,19 @@ namespace Xpressional.Data.Graphs
 				visited = new List<GraphState> ();
 			}
 
+			//check if we have seen this before
 			var alreadyFound = visited.Find (s => s.Id == initState.Id);
 
+			//not found yet, so if final, add it to our list.
 			if(alreadyFound == null && initState.IsFinal){
 				//add to list of final states
 				finals.Add(initState);
 			}
 
+			//add to the visited list
 			visited.Add (initState);
 
-			//not final, so continue like normal.
+			//now go over sub-states to see if they are final or not.
 			foreach (var connection in initState.Out) {
 				if (visited.Find (s => s.Id == connection.End.Id) == null) {
 					//check the outgoing connections
@@ -121,7 +120,10 @@ namespace Xpressional.Data.Graphs
 			return finals;
 		}
 
-
+		/// <summary>
+		/// Creates a Union between this graph and a new graph created for the specified connector.
+		/// </summary>
+		/// <param name="toUnion">the word to use for a new graph to union with this one.</param>
 		public Graph Union(Word toUnion){
 			var baseGraph = Graph.CreateNewGraph (toUnion);
 			return Union (baseGraph);
@@ -193,6 +195,12 @@ namespace Xpressional.Data.Graphs
 			return m;
 		}
 
+		/// <summary>
+		/// Helper method to create a new graph based on a specified word.
+		/// Creates a two node graph that is connected by the specified word.
+		/// </summary>
+		/// <returns>The new graph.</returns>
+		/// <param name="fromConnection">The word to connect by.</param>
 		internal static Graph CreateNewGraph(Word fromConnection){
 			var graph = new Graph () {
 				StartState = new GraphState() { StateNumber = 0 }
@@ -206,6 +214,10 @@ namespace Xpressional.Data.Graphs
 			return graph;
 		}
 
+		/// <summary>
+		/// Concats this graph with a new 2 state graph that is connected by the specified word.
+		/// </summary>
+		/// <param name="word">The word for the new simple graph.</param>
 		public Graph Concat(Word word){
 			var m = Graph.CreateNewGraph (word);
 			return Concat(m);
@@ -214,9 +226,8 @@ namespace Xpressional.Data.Graphs
 		/// <summary>
 		/// Concatinates two NDFA's.
 		/// </summary>
-		/// <param name="m2">The second NDFA to concatinate with.</param>
-		/// <param name="letter">The optional letter to cancat with.</param>
-		/// <returns>The new NDFA that is this and m2 concatinated.</returns>
+		/// <param name="m1">The second NDFA to concatinate with.</param>
+		/// <returns>The new graph that is this and m1 concatinated.</returns>
 		public Graph Concat(Graph m1) {
 			var m = new Graph ();
 			var m2 = this;
@@ -252,7 +263,6 @@ namespace Xpressional.Data.Graphs
 		/// Perfoms a Kleene operation on the graph.
 		/// </summary>
 		/// <returns>The new graph after the Kleene operation.</returns>
-
 		public Graph Kleene(){
 			var m = new Graph ();
 			var m1 = this;
