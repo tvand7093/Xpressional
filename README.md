@@ -1,5 +1,5 @@
 # Xpressional
-A .NET based console application that parses input regular expressions from a file and outputs a state table for expression.
+A .NET based console application that parses input regular expressions from a file and outputs a state table for each expression in the file.
 
 ## Authors
 Tyler Vanderhoef - tyler.vanderhoef@wsu.edu
