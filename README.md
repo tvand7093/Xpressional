@@ -15,7 +15,7 @@ You must be using one of the following IDE's:
 1. Copy the contents of this repository to your local machine.
 2. Open the newly downloaded/unziped folder and double click on `Xpressional.sln`
 3. If Visual Studio prompts about unsafe code, click continue until you can see the whole solution structure.
-4. Now you should be able to simply press the 'Play' button to build the application and it will place the contents in `Xpressional/bin/Debug` as `Xpressional.exe`.
+4. Now in the toolbar at the top, select `Build -> Build Solution` to build the application and it will place the contents in `Xpressional/bin/Debug` as `Xpressional.exe`.
 
 ## Steps to Test
 Navigate to the `Xpressional/bin/Debug` folder after building the application.
