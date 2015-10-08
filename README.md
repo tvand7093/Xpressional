@@ -8,7 +8,7 @@ GitHub repo can be found [here](https://github.com/tvand7093/Xpressional).
 
 ## Environment
 You must be using one of the following IDE's:
-* Visual Studio SP1 or greater
+* Visual Studio 2010 SP1 or greater
 * Xamarin Studio
 
 ## Steps to Install
