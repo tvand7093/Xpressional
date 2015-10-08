@@ -6,11 +6,16 @@ Tyler Vanderhoef - tyler.vanderhoef@wsu.edu
 
 GitHub repo can be found [here](https://github.com/tvand7093/Xpressional).
 
+## Environment
+** You must be using one of the following IDE's **
+* Visual Studio
+* Xamarin Studio
+
 ## Steps to Install
 1. Copy the contents of this repository to your local machine.
-2. Open up Visual Studio or Xamarin Studio
-3. Open the project named 'Xpressional' at the root of the directory and wait for everything to load.
-4. You should now be able to build the application with default settings on the project.
+2. Open the newly downloaded/unziped folder and double click on `Xpressional.sln`
+3. If Visual Studio prompts about unsafe code, click continue until you can see the whole solution structure.
+4. Now you should be able to simply press the 'Play' button to build the application and it will place the contents in `Xpressional/bin/Debug` as `Xpressional.exe`.
 
 ## Steps to Test
 Navigate to the `Xpressional/bin/Debug` folder after building the application.
@@ -49,7 +54,7 @@ Here is a list of the files and what each one does/represents.
 		* OperationType.cs - An enum contianing values for valid operation types.
 		* Word.cs - Used when creating connections between two state nodes. Represents an a letter.
 	* Properties (Ignore the contents)
-* Xpressional.Tests
+* Xpressional.Tests (not included in solution because Visual Studio 2010 doesn't like NuGet)
 	* A suite of tests used when writing this application. For the most part, the files in this folder can be ignored.
 		
 	
