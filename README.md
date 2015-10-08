@@ -10,6 +10,6 @@ A regular expression parser for Automata
 ## Steps to Test
 Specify on the command line (either with Mono or otherwise) the name of the file to open up. This can be a full path or relative to the working bin directory.
 
-An example call would be: `Xpressional.exe "test_expressions.txt"` or `Xpressional.exe "~/MyDirectory/MySpecialFile.txt"`
+An example call would be: `Xpressional.exe "test_expressions.txt"` or `mono ./Xpressional.exe "/MyDirectory/MySpecialFile.txt"`
 
-If you choose to run this using the debugger, it will default to the Xpressional/test_expressions.txt that was included in this repository.
+If you choose to run this using the debugger, it will default to the [test file](Xpressional/test_expressions.txt) that was included in this repository.
