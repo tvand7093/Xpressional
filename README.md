@@ -22,7 +22,8 @@ If you choose to run this using the debugger, it will default to the [test file]
 
 ## Files
 Here is a list of the files and what each one does/represents.
-* Xpressional.sln - The solution file for the whole project
+* Xpressional.sln - The solution file for the whole project.
+* .gitignore - The ignore file for the GitHub repository.
 * Xpressional - The console application folder
 	* Properties (Ignore the contents)
 	* Xpressional.csproj - The project file for the console application
