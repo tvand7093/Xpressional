@@ -7,7 +7,7 @@ Tyler Vanderhoef - tyler.vanderhoef@wsu.edu
 GitHub repo can be found [here](https://github.com/tvand7093/Xpressional).
 
 ## Environment
-** You must be using one of the following IDE's **
+You must be using one of the following IDE's:
 * Visual Studio
 * Xamarin Studio
 
