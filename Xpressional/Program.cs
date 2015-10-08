@@ -38,6 +38,9 @@ namespace Xpressional
 			try{
 				//try to process the document
 				ProcessDocument (args);
+
+				Console.WriteLine("Press any key to close.");
+				Console.ReadKey();
 			}
 			catch (Exception e)
 			{
