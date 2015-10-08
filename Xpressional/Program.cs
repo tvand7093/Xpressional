@@ -1,7 +1,6 @@
 ﻿using System;
-using Xpressional.Data.Managers;
 using System.IO;
-using Xpressional.Data.Graphs;
+using Xpressional.Data.Managers;
 
 namespace Xpressional
 {

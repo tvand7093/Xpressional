@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpressional", "Xpressional\Xpressional.csproj", "{C5178D86-234B-4D47-98B0-0E747891FBED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpressional.Data", "Xpressional.Data\Xpressional.Data.csproj", "{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpressional.Tests", "Xpressional.Tests\Xpressional.Tests.csproj", "{73D4A208-07CE-4441-B5E8-1C4CD45989EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xpressional.Data", "Xpressional.Data\Xpressional.Data.csproj", "{D46DFC66-F8F6-401B-9357-65AB48060DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}.Debug|x86.Build.0 = Debug|Any CPU
-		{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}.Release|x86.ActiveCfg = Release|Any CPU
-		{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}.Release|x86.Build.0 = Release|Any CPU
 		{73D4A208-07CE-4441-B5E8-1C4CD45989EA}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{73D4A208-07CE-4441-B5E8-1C4CD45989EA}.Debug|x86.Build.0 = Debug|Any CPU
 		{73D4A208-07CE-4441-B5E8-1C4CD45989EA}.Release|x86.ActiveCfg = Release|Any CPU
@@ -25,5 +21,9 @@ Global
 		{C5178D86-234B-4D47-98B0-0E747891FBED}.Debug|x86.Build.0 = Debug|x86
 		{C5178D86-234B-4D47-98B0-0E747891FBED}.Release|x86.ActiveCfg = Release|x86
 		{C5178D86-234B-4D47-98B0-0E747891FBED}.Release|x86.Build.0 = Release|x86
+		{D46DFC66-F8F6-401B-9357-65AB48060DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D46DFC66-F8F6-401B-9357-65AB48060DB4}.Debug|x86.Build.0 = Debug|Any CPU
+		{D46DFC66-F8F6-401B-9357-65AB48060DB4}.Release|x86.ActiveCfg = Release|Any CPU
+		{D46DFC66-F8F6-401B-9357-65AB48060DB4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

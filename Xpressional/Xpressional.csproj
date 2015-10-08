@@ -39,14 +39,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Xpressional.Data\Xpressional.Data.csproj">
-      <Project>{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}</Project>
-      <Name>Xpressional.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="test_expressions.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xpressional.Data\Xpressional.Data.csproj">
+      <Project>{D46DFC66-F8F6-401B-9357-65AB48060DB4}</Project>
+      <Name>Xpressional.Data</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

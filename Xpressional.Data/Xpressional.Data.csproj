@@ -3,13 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{3FF1DC9F-9CDC-49FF-A7A4-DC21EB177DF0}</ProjectGuid>
+    <ProjectGuid>{D46DFC66-F8F6-401B-9357-65AB48060DB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Xpressional.Data</RootNamespace>
     <AssemblyName>Xpressional.Data</AssemblyName>
-    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,26 +28,23 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Language.cs" />
-    <Compile Include="Models\Word.cs" />
-    <Compile Include="Models\OperationType.cs" />
-    <Compile Include="Models\Operation.cs" />
-    <Compile Include="Interfaces\IMapping.cs" />
-    <Compile Include="Models\Operations.cs" />
     <Compile Include="Exceptions\InvalidLanguageException.cs" />
+    <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Graphs\GraphState.cs" />
     <Compile Include="Graphs\GraphStateConnection.cs" />
-    <Compile Include="Managers\OutputManager.cs" />
     <Compile Include="Interfaces\IConsole.cs" />
-    <Compile Include="Graphs\Graph.cs" />
+    <Compile Include="Interfaces\IMapping.cs" />
+    <Compile Include="Models\Language.cs" />
+    <Compile Include="Models\Operation.cs" />
+    <Compile Include="Models\Operations.cs" />
+    <Compile Include="Models\OperationType.cs" />
+    <Compile Include="Models\Word.cs" />
     <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Managers\OutputManager.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Managers\" />
-  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
